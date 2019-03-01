@@ -28,8 +28,8 @@ const user = new Schema({
         required: true,
     },
     sex: {
-        type: String,
-        required: true,
+        type:Boolean,
+        // required: true,
     },
     // role: {
     //     type: String,

@@ -64,8 +64,8 @@ router.post('/signup', (req, res)=>{
     lastname: req.body.lastName,
     password: req.body.password,
     phonenumber: req.body.phoneNumber,
-    sex:req.body.sex,
-    role: "user",
+    // sex:req.body.sex,
+    // role: "user",
     // code: uuid.v4()
     })
   user.save((err, user)=>{

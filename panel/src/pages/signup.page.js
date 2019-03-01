@@ -15,7 +15,7 @@ class SignUp extends Component {
             lastName: event.target["lastName"].value,
             password: event.target["password"].value,
             phoneNumber: event.target["phoneNumber"].value,
-            sex: event.target["sex"].value,
+            // sex: event.target["sex"].checked,
             FCM: '1'
         }
         Axios.post('//localhost:3000/signup', data)
@@ -86,7 +86,7 @@ class SignUp extends Component {
                         <option value="female">female</option>
                         <option value="male">male</option>
                     </select><br></br> */}
-                    <input  name="sex" type="checkbox" onChange={this.onChange} /> <br></br>
+                    {/* <input  name="sex" type="checkbox" onChange={this.onChange} /> <br></br> */}
                     <button type="submit">Add</button> <br></br>
                 </form>
                 {this.state.error && <p style={{ color: 'red' }}>SignUp Failed</p>}
