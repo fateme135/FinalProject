@@ -49,8 +49,6 @@ router.post('/createAdmin', function (req, res) {
     })
   })
 })
-
-
 router.post('/signup', (req, res)=>{
   console.log(req.body)
   if (!req.body.firstName || !req.body.lastName || !req.body.userName || !req.body.password) {
@@ -65,9 +63,10 @@ router.post('/signup', (req, res)=>{
     lastname: req.body.lastName,
     password: req.body.password,
     phonenumber: req.body.phoneNumber,
-    // sex:req.body.sex,
     role: "user",
-    // code: uuid.v4()
+    // sex:req.body.sex,
+
+  
     })
   user.save((err, user)=>{
     if (err) {
@@ -84,7 +83,7 @@ router.post('/signup', (req, res)=>{
     })
   })
 })
-router.post('/createArticle', (req, res)=>{
+router.post('/profile', (req, res)=>{
   console.log(req.body)
   if (!req.body.title || !req.body.text ||  !req.body.date || !req.body.picture ) {
     return res.json({

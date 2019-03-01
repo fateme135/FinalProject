@@ -10,7 +10,7 @@ class ProfilePage extends Component {
     }
 
     onSubmit = (event) => {
-        event.preventDefault();
+        // event.preventDefault();
         const data = {
             title: event.target["Title"].value,
             text: event.target["Text"].value,
@@ -18,7 +18,7 @@ class ProfilePage extends Component {
             picture: event.target["Picture"].value,
             FCM: '1'
         }
-        Axios.post('//localhost:3000/createArticle', data)
+        Axios.post('//localhost:3000/profile', data)
             .then(response => {
                 if (response.data.success) {
                     window.location = '/panel/profile';

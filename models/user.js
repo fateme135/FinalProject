@@ -23,14 +23,15 @@ const user = new Schema({
         type: Number,
         required: true,
     },
-    // sex: {
-    //     type:Boolean,
-    //     // required: true,
-    // },
+   
     role: {
         type: String,
         required: true,
     },
+     // sex: {
+    //     type:Boolean,
+    //     // required: true,
+    // },
     // Picture: {
     //     type: String,
     //     required: true,
