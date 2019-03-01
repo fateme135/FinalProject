@@ -1,0 +1,51 @@
+import React,{Component} from 'react';
+import logo from '../logo.svg';
+import Axios from 'axios';
+
+class LoginPage extends Component {
+    state= {
+        error: null
+    }
+    onSubmit = (event)=>{
+        event.preventDefault();
+        const data = {
+            username: event.target["username"].value,
+            password: event.target["password"].value,
+            FCM: '1'
+        }
+        Axios.post('//localhost:3000/login',data)
+        .then(response=>{
+            if (response.data.success){
+                localStorage.setItem('loginData',JSON.stringify(data));
+                window.location = '/panel/profile';
+            }else {
+                this.setState({error: true})
+            }
+        })
+        console.log(localStorage)
+    }
+
+
+    onChange = ({target:{name,value}})=>{
+        this.setState({[name]:value})
+    }
+
+    render() {
+        return (
+            <header className="App-header">
+                <img src={logo} className="App-logo" alt="logo" />
+                <p>
+                    Login
+                </p>
+                <form onSubmit={this.onSubmit}>
+                    <input style={{color:RegExp(/\d/g).test(this.state.username)?'red':'black'}} name="username" type="text" value={this.state.username} onChange={this.onChange}/>
+                    <input name="password" type="password"/>
+                    <button type="submit">login</button>
+                </form>
+                {this.state.error && <p style={{color:'red'}}>Login failed</p>}
+            </header>
+        )
+    }
+}
+
+export {LoginPage}
