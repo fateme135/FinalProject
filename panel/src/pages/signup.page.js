@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from '../logo.svg';
+import { Form , FormControl, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Axios from 'axios';
 class SignUp extends Component {
@@ -68,6 +68,22 @@ class SignUp extends Component {
                     Sign Up
                 </p>
 
+                {/* <Form inline onSubmit={this.onSubmit}>
+                    <Form.Label>username :</Form.Label>
+                    <FormControl name="userName" type="text" onChange={this.onChange} placeholder="username" className=" mr-sm-2" /><br></br>
+                    <Form.Label>firstname :</Form.Label>
+                    <FormControl name="firstName" type="text" onChange={this.onChange} placeholder="firstname" className=" mr-sm-2" /><br></br>
+                    <Form.Label>lastname :</Form.Label>
+                    <FormControl name="lastName" type="text" onChange={this.onChange} placeholder="lastname" className=" mr-sm-2" /><br></br>
+                    <Form.Label>password :</Form.Label>
+                    <FormControl name="password" type="password" onChange={this.onChange} placeholder="password" className=" mr-sm-2" /><br></br>
+                    <Form.Label>phonenumber :</Form.Label>
+                    <FormControl name="phoneNumber" type="number" onChange={this.onChange} placeholder="phonrnumber" className=" mr-sm-2" /><br></br>
+                    <Button type="submit">Submit</Button>
+                </Form> */}
+
+            
+
                 <form onSubmit={this.onSubmit}>
                     <label>USER NAME : </label>
                     <input name="userName" type="text" onChange={this.onChange} /> <br></br>
@@ -81,12 +97,13 @@ class SignUp extends Component {
                     <input name="password" type="password" onChange={this.onChange} /> <br></br>
                     <label>PHONE-NUMBER : </label>
                     <input name="phoneNumber" type="number" onChange={this.onChange} /> <br></br>
-                    <label>SEX is Male:</label>
+                    {/* <label>SEX is Male:</label> */}
                     {/* <select>
                         <option value="female">female</option>
                         <option value="male">male</option>
                     </select><br></br> */}
-                    {/* <input  name="sex" type="checkbox" onChange={this.onChange} /> <br></br> */}
+                    {/* <input  name="sex" type="checkbox" onChange={this.onChange} /> */}
+                    <br></br>
                     <button type="submit">Add</button> <br></br>
                 </form>
                 {this.state.error && <p style={{ color: 'red' }}>SignUp Failed</p>}

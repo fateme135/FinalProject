@@ -65,7 +65,40 @@ router.post('/signup', (req, res)=>{
     password: req.body.password,
     phonenumber: req.body.phoneNumber,
     // sex:req.body.sex,
-    // role: "user",
+    role: "user",
+    // code: uuid.v4()
+    })
+  user.save((err, user)=>{
+    if (err) {
+      console.log(err.message )
+      return res.json({
+        success: false,
+        msg: "something wrong in user sign up\n" + err.message       
+      })
+    }
+    console.log("shooooood")
+    res.json({
+      success: true,
+      user
+    })
+  })
+})
+router.post('/CreateArticle', (req, res)=>{
+  console.log(req.body)
+  if (!req.body.title || !req.body.text || !req.body.userName || !req.body.password) {
+    return res.json({
+      success: false,
+      msg: "empty filed"
+    })
+  }
+  let user = new User({
+    username: req.body.userName,
+    firstname: req.body.firstName,
+    lastname: req.body.lastName,
+    password: req.body.password,
+    phonenumber: req.body.phoneNumber,
+    // sex:req.body.sex,
+    role: "user",
     // code: uuid.v4()
     })
   user.save((err, user)=>{
