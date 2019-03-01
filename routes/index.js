@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
     if(err){ console.log('Failed to connect to ' + db); }  
     else{ console.log('Connected to ' + db); } 
 });
+const Article = require('../models/article');
 const User = require('../models/user');
 const auth = require('../tools/authentication.js');
 const passport = require('passport');
@@ -83,36 +84,32 @@ router.post('/signup', (req, res)=>{
     })
   })
 })
-router.post('/CreateArticle', (req, res)=>{
+router.post('/createArticle', (req, res)=>{
   console.log(req.body)
-  if (!req.body.title || !req.body.text || !req.body.userName || !req.body.password) {
+  if (!req.body.title || !req.body.text ||  !req.body.date || !req.body.picture ) {
     return res.json({
       success: false,
       msg: "empty filed"
     })
   }
-  let user = new User({
-    username: req.body.userName,
-    firstname: req.body.firstName,
-    lastname: req.body.lastName,
-    password: req.body.password,
-    phonenumber: req.body.phoneNumber,
-    // sex:req.body.sex,
-    role: "user",
-    // code: uuid.v4()
-    })
-  user.save((err, user)=>{
+  let article = new Article({
+    title: req.body.title,
+    text: req.body.text,
+    date: req.body.date,
+    picture: req.body.picture,
+     })
+     article.save((err, article)=>{
     if (err) {
       console.log(err.message )
       return res.json({
         success: false,
-        msg: "something wrong in user sign up\n" + err.message       
+        msg: "something wrong in add article \n" + err.message       
       })
     }
     console.log("shooooood")
     res.json({
       success: true,
-      user
+      article
     })
   })
 })
