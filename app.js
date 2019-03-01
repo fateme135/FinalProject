@@ -5,7 +5,6 @@ let logger = require('morgan');
 let indexRouter = require('./routes/index');
 let usersRouter = require('./routes/users');
 let path = require('path');
-const morganSetup = require('./tools/morgan-setup');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const passport = require('passport');
