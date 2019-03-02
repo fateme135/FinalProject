@@ -2,7 +2,7 @@ const path = require('path');
 let express = require('express');
 let router = express.Router();
 const mongoose = require('mongoose');
-  let db = mongoose.connect('mongodb://localhost/FinalProjectTest',{ useNewUrlParser: true},function(err, res){
+  let db = mongoose.connect('mongodb://localhost/FinalProjectTest1',{ useNewUrlParser: true},function(err, res){
     if(err){ console.log('Failed to connect to ' + db); }  
     else{ console.log('Connected to ' + db); } 
 });
