@@ -1,117 +1,73 @@
 import React, { Component } from 'react';
-import { Form , FormControl, Button } from 'react-bootstrap';
+import { Row, Col, Form, FormControl, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Axios from 'axios';
 class SignUp extends Component {
-
     state = {
-        error: null
+        error: null,
+        data: {}
     }
     onSubmit = (event) => {
         event.preventDefault();
-        const data = {
-            userName: event.target["userName"].value,
-            firstName: event.target["firstName"].value,
-            lastName: event.target["lastName"].value,
-            password: event.target["password"].value,
-            phoneNumber: event.target["phoneNumber"].value,
-            // sex: event.target["sex"].checked,
-            FCM: '1'
-        }
+        const { data } = this.state;
+        this.setState({ data });
         Axios.post('//localhost:3000/signup', data)
             .then(response => {
                 if (response.data.success) {
-                    // localStorage.setItem('loginData',JSON.stringify(data));
                     window.location = '/panel/login';
+                    // {"welcom "+ response.data.data.userName}
                 } else {
                     this.setState({ error: true })
                 }
             })
-        //    console.log(data)
     }
-
-
-    onChange = ({ target: { name, value, type, checked } }) => {
-        if (type === "checkbox") {
-            this.setState({ [name]: checked })
-        }
-        else {
-            this.setState({ [name]: value })
-        }
+    onChange = ({ target: { name, value } }) => {
+        const { data } = this.state;
+        data[name] = value;
+        this.setState({ data });
     }
-
     render() {
+        const { data } = this.state;
         return (
-
-
-            // <div >
-            //      <form  >
-            //      <label>USER NAME </label>
-            //      <input value={this.state.userName} name="userName" type="text" onChange={this.onChange} /> <br></br>
-            //      <label>FIRST NAME </label>
-            //      <input value={this.state.firstName} name="firstName" type="text" onChange={this.onChange} /> <br></br>
-            //      <label>LAST NAME </label>
-            //      <input value={this.state.lastName} name="lastName" type="text" onChange={this.onChange} /> <br></br>
-            //      <label>PASSWORD </label>
-            //      <input value={this.state.password} name="password" type="text" onChange={this.onChange} /> <br></br>
-            //      <label>PHONE-NUMBER </label>
-            //      <input value={this.state.phoneName} name="phoneName" type="text" onChange={this.onChange} /> <br></br>
-            //      <label>SEX</label>
-            //      <input checked={this.state.sex} name="sex" type="checkbox" onChange={this.onChange} /> <br></br>
-            //      <button onSubmit={this.data}>Add</button> <br></br>
-            //      </form>
-            //      {this.state.error && <p style={{color:'red'}}>Login failed</p>}
-            //      <Link to="login" className="App-link"> login </Link>
-            // </div>
             <div className="App-header">
-                <p>
-                    Sign Up
-                </p>
-
-                {/* <Form inline onSubmit={this.onSubmit}>
-                    <Form.Label>username :</Form.Label>
-                    <FormControl name="userName" type="text" onChange={this.onChange} placeholder="username" className=" mr-sm-2" /><br></br>
-                    <Form.Label>firstname :</Form.Label>
-                    <FormControl name="firstName" type="text" onChange={this.onChange} placeholder="firstname" className=" mr-sm-2" /><br></br>
-                    <Form.Label>lastname :</Form.Label>
-                    <FormControl name="lastName" type="text" onChange={this.onChange} placeholder="lastname" className=" mr-sm-2" /><br></br>
-                    <Form.Label>password :</Form.Label>
-                    <FormControl name="password" type="password" onChange={this.onChange} placeholder="password" className=" mr-sm-2" /><br></br>
-                    <Form.Label>phonenumber :</Form.Label>
-                    <FormControl name="phoneNumber" type="number" onChange={this.onChange} placeholder="phonrnumber" className=" mr-sm-2" /><br></br>
-                    <Button type="submit">Submit</Button>
-                </Form> */}
-
-            
-
-                <form onSubmit={this.onSubmit}>
-                    <label>USER NAME : </label>
-                    <input name="userName" type="text" onChange={this.onChange} /> <br></br>
-                    {/* <input style={{color:RegExp(/\d/g).test(this.state.userName)?'red':'black'}} 
-                        name="username" type="text" value={this.state.userName} onChange={this.onChange}/> */}
-                    <label>FIRST NAME : </label>
-                    <input name="firstName" type="text" onChange={this.onChange} /> <br></br>
-                    <label>LAST NAME : </label>
-                    <input name="lastName" type="text" onChange={this.onChange} /> <br></br>
-                    <label>PASSWORD : </label>
-                    <input name="password" type="password" onChange={this.onChange} /> <br></br>
-                    <label>PHONE-NUMBER : </label>
-                    <input name="phoneNumber" type="number" onChange={this.onChange} /> <br></br>
-                    {/* <label>SEX is Male:</label> */}
-                    {/* <select>
-                        <option value="female">female</option>
-                        <option value="male">male</option>
-                    </select><br></br> */}
-                    {/* <input  name="sex" type="checkbox" onChange={this.onChange} /> */}
-                    <br></br>
-                    <button type="submit">Add</button> <br></br>
-                </form>
+                <Form inline onSubmit={this.onSubmit}>
+                    <Col>
+                        <Row>
+                            <Form.Label sm={2}>userName : </Form.Label>
+                            <FormControl name="userName" type="text" value={data["userName"]} onChange={this.onChange} placeholder="userName" className=" mr-sm-2" />
+                        </Row><br></br>
+                        <Row>
+                            <Form.Label sm={2}>firstName : </Form.Label>
+                            <FormControl name="firstName" type="text" value={data["firstName"]} onChange={this.onChange} placeholder="fistName" className=" mr-sm-2" />
+                        </Row><br></br>
+                        <Row>
+                            <Form.Label sm={2}>lastName : </Form.Label>
+                            <FormControl name="lastName" type="text" value={data["lastName"]} onChange={this.onChange} placeholder="lastName" className=" mr-sm-2" />
+                        </Row><br></br>
+                        <Row>
+                            <Form.Label sm={2}>password : </Form.Label>
+                            <FormControl name="password" type="password" value={data["password"]} onChange={this.onChange} placeholder="password" className=" mr-sm-2" />
+                        </Row><br></br>
+                        <Row>
+                            <Form.Label sm={2}>phoneNumber : </Form.Label>
+                            <FormControl name="phoneNumber" type="text" value={data["phoneNumber"]} onChange={this.onChange} placeholder="phonenumber" className=" mr-sm-2" />
+                        </Row><br></br>
+                        <Row>
+                            <Form.Label sm={2}>Sex : <br></br></Form.Label>
+                            <Form.Label> male <br></br></Form.Label>
+                            <FormControl name="sexxx" type="radio" value={"male"} onChange={this.onChange} placeholder="sex" className=" mr-sm-2" />
+                            <Form.Label> female <br></br></Form.Label>
+                            <FormControl name="sexxx" type="radio" value={"female"} onChange={this.onChange} placeholder="sex" className=" mr-sm-2" />
+                        </Row>
+                        <Button type="submit">Register</Button>
+                    </Col>
+                </Form>
                 {this.state.error && <p style={{ color: 'red' }}>SignUp Failed</p>}
                 <Link to="login" className="App-link"> login </Link>
             </div>
         )
     }
 }
-
 export { SignUp }
 
+// value sex dg mesle baqiye az state gerefte nemishe chon taqir nemikone.........

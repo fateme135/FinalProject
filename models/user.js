@@ -28,10 +28,10 @@ const user = new Schema({
         type: String,
         required: true,
     },
-     // sex: {
-    //     type:Boolean,
-    //     // required: true,
-    // },
+     sex: {
+        type: String,
+     
+    },
     // Picture: {
     //     type: String,
     //     required: true,

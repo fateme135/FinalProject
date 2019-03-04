@@ -14,7 +14,7 @@ class ProfilePage extends Component {
         const data = {
             title: event.target["Title"].value,
             text: event.target["Text"].value,
-            lastName: event.target["Date"].value,
+            date: event.target["Date"].value,
             picture: event.target["Picture"].value,
             FCM: '1'
         }
@@ -47,16 +47,26 @@ class ProfilePage extends Component {
                         <Tab.Content>
                             <Tab.Pane eventKey="first">
                                 <Form inline onSubmit={this.onSubmit}>
-                                    <Form.Label>Title :</Form.Label>
-                                    <FormControl name="Title" type="text" onChange={this.onChange} placeholder="Title" className=" mr-sm-2" /><br></br>
-                                    <Form.Label>Text :</Form.Label>
-                                    <FormControl name="Text" type="text" onChange={this.onChange} placeholder="Text" className=" mr-sm-2" /><br></br>
-                                    <Form.Label>Date :</Form.Label>
-                                    <FormControl name="Date" type="Date" onChange={this.onChange} placeholder="Date" className=" mr-sm-2" /><br></br>
-                                    <Form.Label>picture :</Form.Label>
-                                    <FormControl name="Picture" type="text" onChange={this.onChange} placeholder="Picture" className=" mr-sm-2" /><br></br>
+                                    <Row>
+                                        <Form.Label>Title :</Form.Label>
+                                        <FormControl name="Title" type="text" onChange={this.onChange} placeholder="Title" className=" mr-sm-2" /><br></br>
+                                    </Row><br></br>
+                                    <Row>
+                                        <Form.Label>Text :</Form.Label>
+                                        <FormControl name="Text" type="text" onChange={this.onChange} placeholder="Text" className=" mr-sm-2" /><br></br>
+                                    </Row><br></br>
+                                    <Row>
+                                        <Form.Label>Date :</Form.Label>
+                                        <FormControl name="Date" type="Date" onChange={this.onChange} placeholder="Date" className=" mr-sm-2" /><br></br>
+                                    </Row><br></br>
+                                    <Row>
+                                        <Form.Label>picture :</Form.Label>
+                                        <FormControl name="Picture" type="text" onChange={this.onChange} placeholder="Picture" className=" mr-sm-2" /><br></br>
+                                    </Row><br></br>
                                     <Button type="submit">ADD</Button>
-                                </Form>
+
+                                </Form><br></br>
+                                <button onClick={this.logout}>Logout</button>
                             </Tab.Pane>
                             <Tab.Pane eventKey="second">
                                 mohtaviat TAB 2
@@ -65,7 +75,6 @@ class ProfilePage extends Component {
                     </Col>
                 </Row>
             </Tab.Container>
-
 
         )
     }

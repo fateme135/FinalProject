@@ -2,9 +2,9 @@ const path = require('path');
 let express = require('express');
 let router = express.Router();
 const mongoose = require('mongoose');
-  let db = mongoose.connect('mongodb://localhost/FinalProjectTest1',{ useNewUrlParser: true},function(err, res){
-    if(err){ console.log('Failed to connect to ' + db); }  
-    else{ console.log('Connected to ' + db); } 
+let db = mongoose.connect('mongodb://localhost/FinalProjectTest1', { useNewUrlParser: true }, function (err, res) {
+  if (err) { console.log('Failed to connect to ' + db); }
+  else { console.log('Connected to ' + db); }
 });
 const Article = require('../models/article');
 const User = require('../models/user');
@@ -27,7 +27,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/panel*', (req, res) => {
-  res.sendFile('index.html', {root: path.join(__dirname, '../panel/build/')});
+  res.sendFile('index.html', { root: path.join(__dirname, '../panel/build/') });
 });
 
 router.post('/createAdmin', function (req, res) {
@@ -36,11 +36,11 @@ router.post('/createAdmin', function (req, res) {
     password: "admin",
     role: "admin"
   })
-  user.save((err, user) =>{
-    if(err){
+  user.save((err, user) => {
+    if (err) {
       return res.json({
         success: false,
-        msg: "something wrong in admin creation\n"+err.message
+        msg: "something wrong in admin creation\n" + err.message
       })
     }
     res.json({
@@ -49,73 +49,71 @@ router.post('/createAdmin', function (req, res) {
     })
   })
 })
-router.post('/signup', (req, res)=>{
-  console.log(req.body)
+router.post('/signup', (req, res) => {
+  // console.log(req.body)
   if (!req.body.firstName || !req.body.lastName || !req.body.userName || !req.body.password) {
-    return res.json({
-      success: false,
-      msg: "empty filed"
+    return res.json({ success: false, msg: "empty filed" })
+  }
+  else {
+    let user = new User({
+      username: req.body.userName,
+      firstname: req.body.firstName,
+      lastname: req.body.lastName,
+      password: req.body.password,
+      phonenumber: req.body.phoneNumber,
+      role: "user",
+      sex: req.body.sexxx,
+    })
+    user.save((err, user) => {
+      if (err) {
+        // console.log(err.message )
+        return res.json({
+          success: false,
+          msg: "something wrong in user sign up\n" + err.message
+        })
+      }
+      console.log("shooooood")
+      res.json({
+        success: true,
+        user
+      })
     })
   }
-  let user = new User({
-    username: req.body.userName,
-    firstname: req.body.firstName,
-    lastname: req.body.lastName,
-    password: req.body.password,
-    phonenumber: req.body.phoneNumber,
-    role: "user",
-    // sex:req.body.sex,
-
-  
-    })
-  user.save((err, user)=>{
-    if (err) {
-      console.log(err.message )
-      return res.json({
-        success: false,
-        msg: "something wrong in user sign up\n" + err.message       
-      })
-    }
-    console.log("shooooood")
-    res.json({
-      success: true,
-      user
-    })
-  })
 })
-router.post('/profile', (req, res)=>{
-  console.log(req.body)
-  if (!req.body.title || !req.body.text ||  !req.body.date || !req.body.picture ) {
-    return res.json({
-      success: false,
-      msg: "empty filed"
+router.post('/profile', (req, res) => {
+  // console.log(req.body)
+  if (!req.body.title || !req.body.text || !req.body.date || !req.body.picture) {
+    return res.json({ success: false, msg: "empty filed" })
+  }
+  else {
+    let article = new Article({
+      title: req.body.title,
+      text: req.body.text,
+      date: req.body.date,
+      picture: req.body.picture,
+    })
+    article.save((err, article) => {
+      if (err) {
+        // console.log(err.message )
+        return res.json({
+          success: false,
+          msg: "something wrong in add article \n" + err.message
+        })
+      }
+      else {
+        res.json({
+          success: true,
+          article
+        })
+        console.log("shooooood")
+      }
     })
   }
-  let article = new Article({
-    title: req.body.title,
-    text: req.body.text,
-    date: req.body.date,
-    picture: req.body.picture,
-     })
-     article.save((err, article)=>{
-    if (err) {
-      console.log(err.message )
-      return res.json({
-        success: false,
-        msg: "something wrong in add article \n" + err.message       
-      })
-    }
-    console.log("shooooood")
-    res.json({
-      success: true,
-      article
-    })
-  })
 })
 router.post('/login', passport.authenticate('local-login'), (req, res) => {
   console.log(req.body);
   res.json({
-    success:true,
+    success: true,
     msg: "you are logged in"
   });
 });
@@ -124,7 +122,7 @@ router.get('/logout', (req, res) => {
   res.json({
     msg: "you are logged out"
   });
-  });
+});
 // router.use('/api/admin', auth.isLogedIn, ac.roleBaseAccess(['admin']),admin);
 // router.use('/api/user', auth.isLogedIn, ac.roleBaseAccess(['admin', 'user']), user);
 module.exports = router;
