@@ -16,7 +16,12 @@ const article = new Schema({
     picture: {
         type: String,
         required: true,
-    }
+    },
+    author: {
+        type:Schema.Types.ObjectId,
+        required:true,
+        ref:'user'
+    },
   
 });
 module.exports = mongoose.model('article', article);

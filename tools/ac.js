@@ -1,5 +1,4 @@
 let ac = {}
-
 ac.roleBaseAccess = (roles)=>{
     return (req, res, next)=>{
         for (let i = 0; i < roles.length; i++) {
