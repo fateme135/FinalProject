@@ -9,7 +9,6 @@ class ShowMyArticles extends Component {
         Axios.post('//localhost:3000/showMyArticle', data)
             .then(response => {
                 if (response.data.success) {
-                    //  const { MyArticles } = response.data.contents;//کانتنت رو ار سرور میگیره ومیرزه تو مای آرتیکل
                     this.setState({ MyArticles: response.data.contents });
                     debugger
                 } else {
