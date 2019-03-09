@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Row, Nav, Col, Tab, Form, FormControl, Button } from 'react-bootstrap';
 import Axios from 'axios';
-import { ShowMyArticles } from './showmyarticles.page'
+import { ShowMyArticles } from '../components/showmyarticles.page';
+import { ShowMyProfile } from '../components/profile.page';
 // import {Link} from 'react-router-dom';
 class ProfilePage extends Component {
     state = { error: null }
@@ -28,7 +29,7 @@ class ProfilePage extends Component {
                     this.setState({ error: true });
                 }
             })
-    //    console.log(data)
+        //    console.log(data)
     }
     render() {
         // const { MyArticles } = this.props;
@@ -42,6 +43,9 @@ class ProfilePage extends Component {
                             </Nav.Item>
                             <Nav.Item>
                                 <Nav.Link eventKey="second">Show My Articles</Nav.Link>
+                            </Nav.Item>
+                            <Nav.Item>
+                                <Nav.Link eventKey="third">Show My Profile</Nav.Link>
                             </Nav.Item>
                         </Nav>
                     </Col>
@@ -71,9 +75,11 @@ class ProfilePage extends Component {
                             </Tab.Pane>
 
                             <Tab.Pane eventKey="second">
-
-                               <ShowMyArticles/>
-                                
+                                <ShowMyArticles />
+                            </Tab.Pane>
+                            
+                            <Tab.Pane eventKey="third">
+                            <ShowMyProfile />
                             </Tab.Pane>
 
                         </Tab.Content>

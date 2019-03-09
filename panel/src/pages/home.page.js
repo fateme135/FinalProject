@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 // import logo from '../logo.svg';
-import { Card, Button } from 'react-bootstrap';
+import {Row, Card, Button } from 'react-bootstrap';
 import Axios from 'axios';
 //import { Link } from 'react-router-dom';
 class HomePage extends Component {
@@ -23,19 +23,22 @@ class HomePage extends Component {
         return (
             AllArticles.map((Article, index) => {
                 return (
-                    <Card style={{ width: '18rem' }} bg="secondary" key={index}>
+                    <Row>
+                        <Card style={{ width: '22rem' }} bg="secondary" key={index}>
 
-                        {/* <Card.Img variant="top" src="{Article.Picture}" /> */}
-                        <Card.Body>
-                            All Articles are :
-                            <Card.Title>{Article.title}</Card.Title>
-                            <Card.Text> {Article.text} </Card.Text>
-                            <Card.Text> {Article.date} </Card.Text>
-                            <Card.Text> {Article.picture} </Card.Text>
-                            <Button variant="primary">nazar</Button>
-                            <Button variant="danger">More</Button>
-                        </Card.Body>
-                    </Card>
+                            {/* <Card.Img variant="top" src="{Article.Picture}" /> */}
+                            <Card.Body>
+                                All Articles are :
+                                <Card.Title>{Article.title}</Card.Title>
+                                <Card.Text> {Article.text} </Card.Text>
+                                <Card.Text> {Article.date} </Card.Text>
+                                <Card.Text> {Article.picture} </Card.Text>
+                                <Button variant="primary">nazar</Button>
+                                <Button variant="danger">More</Button>
+                            </Card.Body>
+                        </Card>
+                    </Row>
+
                 )
 
             })
