@@ -16,7 +16,7 @@ router.post('/showMyArticle', (req, res) => {
                 success: true,
                 contents
             })
-            console.log(contents);
+            console.log("my Article is" + contents);
         })
 })
 

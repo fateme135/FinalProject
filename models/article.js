@@ -15,7 +15,6 @@ const article = new Schema({
  },
     picture: {
         type: String,
-        required: true,
     },
     author: {
         type:Schema.Types.ObjectId,
