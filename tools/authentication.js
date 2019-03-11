@@ -1,7 +1,6 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const User = require('../models/user');
-
 passport.use('local-login', new LocalStrategy(function (username, password, done) {
     console.log('it is pass')
     User.findOne({username : username}, function (err, user) {

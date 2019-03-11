@@ -1,2 +1,3 @@
-export * from './showmyarticles.page';
-export * from './profile.page';
+export * from './showmyarticles-Component';
+export * from './Editeprofile-Component';
+export * from './MyinformationOfprofile-component';

@@ -15,7 +15,7 @@ class SignUp extends Component {
             .then(response => {
                 if (response.data.success) {
                     window.location = '/panel/login';
-                    // {"welcom "+ response.data.data.userName}
+                    // {"welcom "+ response.data.userName}
                 } else {
                     this.setState({ error: true })
                 }

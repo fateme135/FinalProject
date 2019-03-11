@@ -22,8 +22,6 @@ class LoginPage extends Component {
             })
         console.log(localStorage)
     }
-
-
     onChange = ({ target: { name, value } }) => {
         this.setState({ [name]: value })
     }

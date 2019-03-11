@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { Row, Nav, Col, Tab, Form, FormControl, Button } from 'react-bootstrap';
 import Axios from 'axios';
-import { ShowMyArticles } from '../components/showmyarticles.page';
-import { ShowMyProfile } from '../components/profile.page';
+import { ShowMyArticles } from '../components/showmyarticles-Component';
+import { EditMyProfile } from '../components/Editeprofile-Component';
 // import {Link} from 'react-router-dom';
-
-
 class ProfilePage extends Component {
 
     state = { error: null, file: null }
@@ -96,7 +94,7 @@ class ProfilePage extends Component {
                             </Tab.Pane>
 
                             <Tab.Pane eventKey="third">
-                                <ShowMyProfile />
+                                <EditMyProfile />
                             </Tab.Pane>
 
                         </Tab.Content>

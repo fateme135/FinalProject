@@ -26,7 +26,7 @@ class HomePage extends Component {
                     <Row>
                         <Card style={{ width: '22rem' }} bg="secondary" key={index}>
 
-                            <Card.Img variant="top" src={Article.picture} />
+                            <Card.Img variant="top" src={Article.picture} style={{ width: '7rem' }}  />
                             <Card.Body>
                                 All Articles are :
                                 <Card.Title>{Article.title}</Card.Title>

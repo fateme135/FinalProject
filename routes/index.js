@@ -153,6 +153,55 @@ router.get('/logout', (req, res) => {
   });
 });
 /////////////////////////////////////////////////////////////////////
+ router.post('/whoAmI', (req, res) => {
+ //router.get('/whoAmI', (req, res) => {
+  User.find({ _id: req.user._id },
+      (err, user) => {
+          if (err) {
+              return res.json({
+                  success: false,
+                  msg: "something wrong in get user info\n" + err.message
+              })
+          }
+          res.json({
+              success: true,
+              user
+          })
+          console.log(user +"in  whoAmI server")
+      })
+})
+
+//////////////////////////////////////////////////
+router.post('/editprofile', (req, res) => {
+  User.update({ _id: req.user._id },
+      {
+          $set:
+          {
+              username: req.body.username,
+              firstname: req.body.firstname,
+              lastname: req.body.lastname,
+              password: req.body.password,
+              phonenumber: req.body.phonenumber,
+              role: "user",
+              sex: req.body.sex,
+          }
+      },
+      function (err, user) {
+          if (err) {
+               console.log(err.message )
+              return res.json({
+                  success: false,
+                  msg: "something wrong in user sign up\n" + err.message
+              })
+          }
+          res.json({
+              success,
+              user
+          })
+          console.log("UPLOAD"+user )
+      })
+})
+////////////////////////////////////////////////
 router.use('/api/admin', auth.isLogedIn, ac.roleBaseAccess(['admin']), admin);
 router.use('/api/user', auth.isLogedIn, ac.roleBaseAccess(['admin', 'user']), user);
 module.exports = router;
