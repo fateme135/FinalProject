@@ -22,7 +22,7 @@ class ShowMyArticles extends Component {
                 return (
                     <Row>
                         <Card style={{ width: '23rem' }} bg="secondary" key={index}>
-                             <Card.Img variant="top" src={ Article.picture} style={{ width: '7rem' }}  />
+                             <Card.Img variant="top" src={"../../../images/image-Articles/"+  Article.picture} style={{ width: '7rem' }}  />
                             <Card.Body>
                             <Card.Title>{Article.title}</Card.Title>
                                 <Card.Text> {Article.text} </Card.Text>

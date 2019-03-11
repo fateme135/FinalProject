@@ -25,7 +25,7 @@ class EditMyProfile extends Component {
                     this.setState({ error: true });
                 }
             })
-        // Axios.get('//localhost:3000/whoAmI')
+        // Axios.get('//localhost:3000/api/user/whoAmI')
         //     .then(res => {
         //         const myProfile = res.data;
         //         this.setState({ myProfile });

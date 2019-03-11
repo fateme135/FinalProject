@@ -1,11 +1,46 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
+
+<head>
+
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+
+    
+    <a class="nav-link" href="/panel/signup">Sign Up</a>
+    <a class="nav-link" href="/panel/login">Sign In</a>
+
+  <section id="one" class="wrapper style2">
+
+
+
+
+    <%articles.forEach(function(article){%>
+    <div>
+      <div class="box">
+        <div class="image fit">
+          <!-- <img src="images/pic02.jpg" alt="" /> -->
+          <img src="<%=article.picture%>" alt="" />
+        </div>
+        <div class="content">
+          <header class="align-center">
+            <p><%=article.title%></p>
+            <h2><%=article.text%></h2>
+          </header>
+          <p>Date: <%=article.date%></p>
+          <!-- <footer class="align-center">
+            <a href="article/<%=article.link%>" class="button alt">Learn More</a>
+
+          </footer> -->
+        </div>
+      </div>
+    </div>
+    <%})%>
+
+
+  </section>
+</body>
+
 </html>

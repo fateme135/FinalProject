@@ -5,7 +5,7 @@ let db = mongoose.connect('mongodb://localhost:27017/FinalProjectArticles', { us
   if (err) { console.log('Failed to connect to ' + db); }
   else { console.log('Connected to ' + db); }
 });
-const path=require('path')
+const path = require('path')
 const Article = require('../models/article');
 const User = require('../models/user');
 const auth = require('../tools/authentication.js');
@@ -13,8 +13,8 @@ const passport = require('passport');
 const ac = require('../tools/ac.js');
 const admin = require('./api/admin');
 const user = require('./api/user');
-const multer=require('multer');
-////////////////////////////////////////////
+const multer = require('multer');
+//////////////////////Upload Piicture//////////////////////
 const storage = multer.diskStorage({
   destination: "./public/images/image-Articles",
   filename: function (req, file, cb) {
@@ -27,11 +27,20 @@ const upload = multer({
 })
 /////////////////////////////////////////////////////////////////////
 /* GET home page. */
-router.get('/', function (req, res, next) {
-  res.render('index', {
-    title: 'Express'
+router.get('/', function(req, res) {
+    Article.find({}, function (err, articles) {
+      if (err){
+        res.render('index.ejs', {
+          msg: err
+        });
+      }
+      console.log(articles)
+      res.render('index.ejs', {
+        articles
+      })
+  })
   });
-});
+
 /////////////////////////////////////////////////////////////////////
 router.get('/panel*', (req, res) => {
   res.sendFile('index.html', { root: path.join(__dirname, '../panel/build/') });
@@ -89,10 +98,10 @@ router.post('/signup', (req, res) => {
   }
 })
 /////////////////////////////////////////////////////////////////////
-  router.post('/createArticle', upload.single('picture'), (req, res) => {
+router.post('/createArticle', upload.single('picture'), (req, res) => {
 
   const REQ_BODY2 = req.body;
-  if (!REQ_BODY2.title || !REQ_BODY2.text || !REQ_BODY2.date ) {
+  if (!REQ_BODY2.title || !REQ_BODY2.text || !REQ_BODY2.date) {
     return res.json({ success: false, msg: "empty filed " })
   }
   else {
@@ -101,12 +110,12 @@ router.post('/signup', (req, res) => {
       text: REQ_BODY2.text,
       date: REQ_BODY2.date,
       // picture:REQ_BODY2.picture,
-      picture:"../../../images/image-Articles/"+req.file.filename,
+      picture: "../../../images/image-Articles/" + req.file.filename,
       author: req.user._id,
     })
     article.save((err, article) => {
       if (err) {
-        console.log("error of articles"+err.message);
+        console.log("error of articles" + err.message);
         return res.json({
           success: false,
           msg: "something wrong in add article \n" + err.message
@@ -153,53 +162,53 @@ router.get('/logout', (req, res) => {
   });
 });
 /////////////////////////////////////////////////////////////////////
- router.post('/whoAmI', (req, res) => {
- //router.get('/whoAmI', (req, res) => {
+router.post('/whoAmI', (req, res) => {
+  //router.get('/whoAmI', (req, res) => {
   User.find({ _id: req.user._id },
-      (err, user) => {
-          if (err) {
-              return res.json({
-                  success: false,
-                  msg: "something wrong in get user info\n" + err.message
-              })
-          }
-          res.json({
-              success: true,
-              user
-          })
-          console.log(user +"in  whoAmI server")
+    (err, user) => {
+      if (err) {
+        return res.json({
+          success: false,
+          msg: "something wrong in get user info\n" + err.message
+        })
+      }
+      res.json({
+        success: true,
+        user
       })
+      console.log(user + "in  whoAmI server")
+    })
 })
 
 //////////////////////////////////////////////////
 router.post('/editprofile', (req, res) => {
   User.update({ _id: req.user._id },
+    {
+      $set:
       {
-          $set:
-          {
-              username: req.body.username,
-              firstname: req.body.firstname,
-              lastname: req.body.lastname,
-              password: req.body.password,
-              phonenumber: req.body.phonenumber,
-              role: "user",
-              sex: req.body.sex,
-          }
-      },
-      function (err, user) {
-          if (err) {
-               console.log(err.message )
-              return res.json({
-                  success: false,
-                  msg: "something wrong in user sign up\n" + err.message
-              })
-          }
-          res.json({
-              success,
-              user
-          })
-          console.log("UPLOAD"+user )
+        username: req.body.username,
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
+        password: req.body.password,
+        phonenumber: req.body.phonenumber,
+        role: "user",
+        sex: req.body.sex,
+      }
+    },
+    function (err, user) {
+      if (err) {
+        console.log(err.message)
+        return res.json({
+          success: false,
+          msg: "something wrong in user sign up\n" + err.message
+        })
+      }
+      res.json({
+
+        user
       })
+      console.log("UPLOAD" + user)
+    })
 })
 ////////////////////////////////////////////////
 router.use('/api/admin', auth.isLogedIn, ac.roleBaseAccess(['admin']), admin);
