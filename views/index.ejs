@@ -6,10 +6,10 @@
   <link rel='stylesheet' href='/stylesheets/style.css' />
 </head>
 
-<body>
-
+<body class="body">
+<h1>Welcome to Article Blog </h1>
     
-    <a class="nav-link" href="/panel/signup">Sign Up</a>
+    <a class="nav-link" class="link" href="/panel/signup">Sign Up</a>
     <a class="nav-link" href="/panel/login">Sign In</a>
 
   <section id="one" class="wrapper style2">
@@ -18,12 +18,8 @@
 
 
     <%articles.forEach(function(article){%>
-    <div>
       <div class="box">
-        <div class="image fit">
-          <!-- <img src="images/pic02.jpg" alt="" /> -->
           <img src="<%=article.picture%>" alt="" />
-        </div>
         <div class="content">
           <header class="align-center">
             <p><%=article.title%></p>
@@ -36,7 +32,6 @@
           </footer> -->
         </div>
       </div>
-    </div>
     <%})%>
 
 

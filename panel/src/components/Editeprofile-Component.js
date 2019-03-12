@@ -18,12 +18,8 @@ class EditMyProfile extends Component {
                 if (response.data.success) {
                     // const MyProfile = response.data.user ;
                     this.setState({ MyProfile: response.data.user });
-                    //  console.log("hhhhhhhh" + myProfile)
-                    debugger;
                 }
-                else {
-                    this.setState({ error: true });
-                }
+                else { this.setState({ error: true });}
             })
         // Axios.get('//localhost:3000/api/user/whoAmI')
         //     .then(res => {
@@ -33,7 +29,6 @@ class EditMyProfile extends Component {
         //     })
     }
     /////////////////////////////////////
-
     onEdit = () => {
         this.setState({ isOnEdit: !this.state.isOnEdit });
     }
@@ -53,7 +48,7 @@ class EditMyProfile extends Component {
             .then(response => {
                 if (response.data.success) {
                     window.location = '/panel/dashboard';
-                    // {"welcom "+ response.data.data.userName}
+                   // {"welcom "+ response.data.username}
                 } else {
                     this.setState({ error: true })
                 }
@@ -68,7 +63,7 @@ class EditMyProfile extends Component {
     // }
     ///////////////////////////////////
     render() {
-        let { isOnEdit } = this.state;
+        let { isOnEdit} = this.state;
         return (
             <div>
                 <Container>
@@ -105,7 +100,7 @@ class EditMyProfile extends Component {
                                             <Form.Label> female <br></br></Form.Label>
                                             <FormControl name="sexxx" type="radio" value={"female"} placeholder="sex" className=" mr-sm-2" />
                                         </Row>
-                                        <Button onClick={this.onEdit}>Cancele</Button>
+                                        {/* <Button onClick={this.onEdit}>Cancele</Button> */}
                                         <Button type="submit">Save</Button>
                                     </Col>
                                 </Form>
