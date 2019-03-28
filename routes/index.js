@@ -1,7 +1,7 @@
 let express = require('express');
 let router = express.Router();
 const mongoose = require('mongoose');
-let db = mongoose.connect('mongodb://localhost:27017/FinalProject', { useNewUrlParser: true }, function (err, res) {
+let db = mongoose.connect('mongodb://localhost:27017/TestFinalProject', { useNewUrlParser: true }, function (err, res) {
   if (err) { console.log('Failed to connect to ' + db); }
   else { console.log('Connected to ' + db); }
 });
@@ -14,12 +14,10 @@ const ac = require('../tools/ac.js');
 const admin = require('./api/admin');
 const user = require('./api/user');
 const multer = require('multer');
-//////////////////////Upload Picture//////////////////////
+//////////////////////Upload image-Avater//////////////////////
 const storage = multer.diskStorage({
-  destination: "./public/images/image-Articles",
-  filename: function (req, file, cb) {
-    cb(null, "IMAGE-" + Date.now() + path.extname(file.originalname));
-  }
+  destination: "./public/images/image-Avaters",
+  filename: function (req, file, cb) { cb(null, "IMAGE-" + Date.now() + path.extname(file.originalname)); }
 });
 const upload = multer({
   storage: storage,
@@ -66,13 +64,14 @@ router.post('/createAdmin', function (req, res) {
   })
 })
 /////////////////////////////////////////////////////////////////////
-router.post('/signup', (req, res) => {
+router.post('/signup', upload.single('avatar'), (req, res) => {
   const REQ_BODY1 = req.body;
   if (!REQ_BODY1.firstName || !REQ_BODY1.lastName || !REQ_BODY1.userName || !REQ_BODY1.password) {
     return res.json({ success: false, msg: "empty filed" })
   }
   else {
     let user = new User({
+      avatar:req.file.filename,
       username: REQ_BODY1.userName,
       firstname: REQ_BODY1.firstName,
       lastname: REQ_BODY1.lastName,
@@ -81,9 +80,10 @@ router.post('/signup', (req, res) => {
       role: "user",
       sex: REQ_BODY1.sexxx,
     })
+    console.log("sign up")
     user.save((err, user) => {
       if (err) {
-        // console.log(err.message )
+         console.log(err.message )
         return res.json({
           success: false,
           msg: "something wrong in user sign up\n" + err.message
@@ -98,38 +98,38 @@ router.post('/signup', (req, res) => {
   }
 })
 ///////////////////////////////////create Article//////////////////////////////////
-router.post('/createArticle', upload.single('picture'), (req, res) => {
-  const REQ_BODY2 = req.body;
-  if (!REQ_BODY2.title || !REQ_BODY2.text || !REQ_BODY2.date) {
-    return res.json({ success: false, msg: "empty filed " })
-  }
-  else {
-    let article = new Article({
-      title: REQ_BODY2.title,
-      text: REQ_BODY2.text,
-      date: REQ_BODY2.date,
-      // picture:REQ_BODY2.picture,
-      // picture: "../../../images/image-Articles/" + req.file.filename,
-      picture: req.file.filename,
-      author: req.user._id,
-    })
-    article.save((err, article) => {
-      if (err) {
-        console.log("error of articles" + err.message);
-        return res.json({
-          success: false,
-          msg: "something wrong in add article \n" + err.message
-        })
-      }
-      else {
-        res.json({
-          success: true,
-          article
-        })
-      }
-    })
-  }
-})
+// router.post('/createArticle', upload.single('picture'), (req, res) => {
+//   const REQ_BODY2 = req.body;
+//   if (!REQ_BODY2.title || !REQ_BODY2.text || !REQ_BODY2.date) {
+//     return res.json({ success: false, msg: "empty filed " })
+//   }
+//   else {
+//     let article = new Article({
+//       title: REQ_BODY2.title,
+//       text: REQ_BODY2.text,
+//       date: REQ_BODY2.date,
+//       // picture:REQ_BODY2.picture,
+//       // picture: "../../../images/image-Articles/" + req.file.filename,
+//       picture: req.file.filename,
+//       author: req.user._id,
+//     })
+//     article.save((err, article) => {
+//       if (err) {
+//         console.log("error of articles" + err.message);
+//         return res.json({
+//           success: false,
+//           msg: "something wrong in add article \n" + err.message
+//         })
+//       }
+//       else {
+//         res.json({
+//           success: true,
+//           article
+//         })
+//       }
+//     })
+//   }
+// })
 ///////////////////////////////////show All Article////////////////////////////////
 router.post('/showAllArticle', (req, res) => {
   Article.find({},
@@ -209,6 +209,7 @@ router.post('/editprofile', (req, res) => {
         phonenumber: req.body.phonenumber,
         role: "user",
         sex: req.body.sex,
+        avatar:req.body.avatar
       }
     },
     function (err, user) {
@@ -220,7 +221,7 @@ router.post('/editprofile', (req, res) => {
         })
       }
       res.json({
-       success: true,
+        success: true,
         user
       })
       console.log("UPLOAD" + user)
@@ -255,7 +256,7 @@ router.post('/editprofile', (req, res) => {
 // })
 ///////////////////////////Delete Article/////////////////////////
 router.post('/deleteArticle', (req, res) => {
-  Article.deleteOne({ _id: req.body._id },
+  Article.deleteOne({ _id: req.body.id },
     function (err, content) {
       if (err) {
         console.log(err.message + "id ferestade nashod")
@@ -267,11 +268,29 @@ router.post('/deleteArticle', (req, res) => {
       res.json({
         success: true,
         msg: "The article is deleted\n",
-        //     content
+        //   content
       })
       //console.log("Delete" + content)
     })
 })
+// ///////////////////////////Delete Article/////////////////////////
+// router.post('/deleteArticle', function (req, res, next) {
+//   Article.deleteOne({ _id: req.body.id }, function (err, content) {
+//       if (err) {
+//         console.log(err.message + "id ferestade nashod")
+//         return res.json({
+//           success: false,
+//           msg: "The article isnot deleted\n" + err.message
+//         })
+//       }
+//       res.json({
+//         success: true,
+//         msg: "The article is deleted\n",
+//         content
+//       })
+//       //console.log("Delete" + content)
+//     })
+// })
 ////////////////////////////////////////////////
 router.use('/api/admin', auth.isLogedIn, ac.roleBaseAccess(['admin']), admin);
 router.use('/api/user', auth.isLogedIn, ac.roleBaseAccess(['admin', 'user']), user);

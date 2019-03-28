@@ -7,31 +7,66 @@ class SignUp extends Component {
         error: null,
         data: {}
     }
+    ////////////////////////////fale but i donot khow/////////////////////
+    // onSubmit = (event) => {
+    //     event.preventDefault();
+    //     const { data } = this.state;
+    //     this.setState({ data });
+    //         .then(response => {
+    //     Axios.post('//localhost:3000/signup', data)
+    //             if (response.data.success) {
+    //                 window.location = '/panel/login';
+    //                 // {"welcom "+ response.data.userName}
+    //             } else {
+    //                 this.setState({ error: true })
+    //             }
+    //         })
+    // }
+    /////////////////////////////////////////////////////////////
     onSubmit = (event) => {
-        event.preventDefault();
-        const { data } = this.state;
-        this.setState({ data });
-        Axios.post('//localhost:3000/signup', data)
+         event.preventDefault();
+        const {data}=this.state;
+       let formdata = new FormData()
+       formdata.append("avatar", this.state.file)
+       formdata.append("userName", data["userName"].value);
+       formdata.append("firstName", data["firstName"].value);
+       formdata.append("lastName",data ["lastName"].value);
+       formdata.append("password", data["password"].value);
+       formdata.append("phoneNumber",data["phoneNumber"].value);
+       formdata.append("sexxx",data["sexxx"].value);
+       this.setState({data:{}})
+        ///////////////////////Axios//////////////////////////////////////
+        Axios.post('//localhost:3000/signup',formdata)
             .then(response => {
                 if (response.data.success) {
-                    window.location = '/panel/login';
-                    // {"welcom "+ response.data.userName}
+                     window.location = '/panel/login';
                 } else {
-                    this.setState({ error: true })
+                    this.setState({ error: true });
                 }
             })
     }
-    onChange = ({ target: { name, value } }) => {
+    ////////////////////////////////////////////////////////
+    onChange = (event) => {
+        const { name, value, type } = event.target;
         const { data } = this.state;
+        if (type === "file") {
+            this.setState({ file: event.target.files[0] });
+        }
+       
         data[name] = value;
         this.setState({ data });
     }
+    //////////////////////////////////////////////////////////
     render() {
         const { data } = this.state;
         return (
             <div className="App-header">
                 <Form inline onSubmit={this.onSubmit}>
                     <Col>
+                        <Row>
+                            <Form.Label>avatar :</Form.Label>
+                            <FormControl name="avatar" type="file" placeholder="avatar" className=" mr-sm-2" onChange={this.onChange} /><br></br>
+                        </Row><br></br>
                         <Row>
                             <Form.Label sm={2}>userName : </Form.Label>
                             <FormControl name="userName" type="text" value={data["userName"]} onChange={this.onChange} placeholder="userName" className=" mr-sm-2" />

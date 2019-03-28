@@ -12,7 +12,7 @@ class ProfilePage extends Component {
         localStorage.removeItem('loginData');
         window.location = "/panel/login";
     }
-    //////////////////////////onSubmit  second for pictur//////////////
+    //////////////////////////onSubmit  second for picture//////////////
     onSubmit = (event) => {
         // event.preventDefault();
        let data = new FormData()
@@ -20,7 +20,7 @@ class ProfilePage extends Component {
         data.append("text", event.target["Text"].value);
         data.append("date", event.target["Date"].value);
         data.append("picture", this.state.file)
-        //////////////////////////onSubmit  first whitout pictur//////////
+        //////////////////////////onSubmit  first whitout picture//////////
         // const data = {
         //     title: event.target["Title"].value,
         //     text: event.target["Text"].value,

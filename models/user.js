@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const user = new Schema({
+    avatar: {
+        type: String,
+    },
     username: {
         type: String,
         required: true,
@@ -20,22 +23,19 @@ const user = new Schema({
     },
 
     phonenumber: {
-        type: Number,
+        type: String,
         required: true,
     },
-   
+
     role: {
         type: String,
         required: true,
     },
-     sex: {
+    sex: {
         type: String,
-     
+
     },
-    // Picture: {
-    //     type: String,
-    //     required: true,
-    // },
+
     // code: {
     //     type: String,
     //     unique: true,

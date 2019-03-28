@@ -2,6 +2,19 @@ var express = require('express');
 var router = express.Router();
 const User = require('../../models/user');
 const Article = require('../../models/article');
+const path = require('path')
+const multer = require('multer');
+//////////////////////Upload image-Articles//////////////////////
+const storage = multer.diskStorage({
+     destination: "./public/images/image-Articles",
+     filename: function (req, file, cb) {
+       cb(null, "IMAGE-" + Date.now() + path.extname(file.originalname));
+     }
+   });
+   const upload = multer({
+     storage: storage,
+     limits: { fileSize: 1000000 },
+   })
 // ///////////////////////show My Article////////////////////////
 // router.post('/showMyArticle', (req, res) => {
 //     Article.find({ author: req.user._id },

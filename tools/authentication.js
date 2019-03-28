@@ -45,7 +45,7 @@ module.exports = {
             return next();
         } else {
             // return next();
-            return res.send(403);
+            return res.sendStatus(403);
         }
     }
 }

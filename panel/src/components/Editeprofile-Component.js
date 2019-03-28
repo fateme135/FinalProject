@@ -42,6 +42,7 @@ class EditMyProfile extends Component {
             password: event.target["password"].value,
             phonenumber: event.target["phoneNumber"].value,
             sex: event.target["sexxx"].value,
+            avatar:event.target["avatar"].value,
             FCM: '1'
         }
         Axios.post('//localhost:3000/editprofile', data)
@@ -73,6 +74,11 @@ class EditMyProfile extends Component {
                             <>
                                 <Form inline onSubmit={this.onSubmit} style={{ marginLeft: '4rem' }}>
                                     <Col>
+                                    <Row>
+                                            <Form.Label>picture :</Form.Label>
+                                            <FormControl name="avatar" type="file" placeholder="avatar" className=" mr-sm-2"  /><br></br>
+                                           
+                                        </Row><br></br>
                                         <Row>
                                             <Form.Label sm={2}>userName : </Form.Label>
                                             <FormControl name="userName" type="text" placeholder="userName" className=" mr-sm-2" />
@@ -109,8 +115,13 @@ class EditMyProfile extends Component {
                             <>
                                 <Form inline >
                                     <Col>
+                                    <Row>
+                                    <Form.Label sm={2}>avatar : </Form.Label>
+                                    <FormControl type="file"  value={"../../../images/image-Avatar/" + Profile.avatar} style={{ width: '7rem' }} />
+                                    </Row>
+                                    
                                         <Row>
-                                            <Form.Label sm={2}>userName : </Form.Label>
+                                        <Form.Label sm={2}>userName : </Form.Label> 
                                             <FormControl type="text" value={Profile.username} placeholder="userName" className=" mr-sm-2" />
                                         </Row><br></br>
                                         <Row>
