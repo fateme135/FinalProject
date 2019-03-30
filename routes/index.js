@@ -77,10 +77,9 @@ router.post('/signup', upload.single('avatar'), (req, res) => {
       lastname: REQ_BODY1.lastName,
       password: REQ_BODY1.password,
       phonenumber: REQ_BODY1.phoneNumber,
-      role: "user",
       sex: REQ_BODY1.sexxx,
+      role: "user",
     })
-    console.log("sign up")
     user.save((err, user) => {
       if (err) {
          console.log(err.message )
@@ -89,12 +88,12 @@ router.post('/signup', upload.single('avatar'), (req, res) => {
           msg: "something wrong in user sign up\n" + err.message
         })
       }
-      console.log("shooooood")
       res.json({
         success: true,
         user
       })
     })
+    console.log("shooooood"+user)
   }
 })
 ///////////////////////////////////create Article//////////////////////////////////
