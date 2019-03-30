@@ -15,15 +15,13 @@ class LoginPage extends Component {
             .then(response => {
                 if (response.data.success) {
                     localStorage.setItem('loginData', JSON.stringify(data));
-                    window.location = '/panel/profile';
+                    window.location = '/panel/dashboard';
                 } else {
                     this.setState({ error: true })
                 }
             })
         console.log(localStorage)
     }
-
-
     onChange = ({ target: { name, value } }) => {
         this.setState({ [name]: value })
     }

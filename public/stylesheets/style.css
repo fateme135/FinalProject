@@ -1,8 +1,19 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  text-align: center;
+  background:rgb(243, 221, 243)
 }
 
 a {
   color: #00B7FF;
+  font:20px;
+  border: 1px solid blueviolet;
+  background: violet;
+  color: black;
+}
+div.box
+{
+  width: 30%;
+  height: 40%;
 }
