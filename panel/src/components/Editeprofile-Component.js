@@ -42,7 +42,6 @@ class EditMyProfile extends Component {
             password: event.target["password"].value,
             phonenumber: event.target["phoneNumber"].value,
             sex: event.target["sexxx"].value,
-            avatar:event.target["avatar"].value,
             FCM: '1'
         }
         Axios.post('//localhost:3000/editprofile', data)
@@ -66,7 +65,7 @@ class EditMyProfile extends Component {
     render() {
         let { isOnEdit} = this.state;
         return (
-            <div>
+            <div className="App-header">
                 <Container>
                     <h3>Edit My Profile</h3>
                     {this.state.MyProfile.map(Profile => {
@@ -74,11 +73,11 @@ class EditMyProfile extends Component {
                             <>
                                 <Form inline onSubmit={this.onSubmit} style={{ marginLeft: '4rem' }}>
                                     <Col>
-                                    <Row>
+                                    {/* <Row>
                                             <Form.Label>picture :</Form.Label>
                                             <FormControl name="avatar" type="file" placeholder="avatar" className=" mr-sm-2"  /><br></br>
                                            
-                                        </Row><br></br>
+                                        </Row><br></br> */}
                                         <Row>
                                             <Form.Label sm={2}>userName : </Form.Label>
                                             <FormControl name="userName" type="text" placeholder="userName" className=" mr-sm-2" />
@@ -115,10 +114,10 @@ class EditMyProfile extends Component {
                             <>
                                 <Form inline >
                                     <Col>
-                                    <Row>
+                                    {/* <Row>
                                     <Form.Label sm={2}>avatar : </Form.Label>
                                     <FormControl type="file"  value={"../../../images/image-Avatar/" + Profile.avatar} style={{ width: '7rem' }} />
-                                    </Row>
+                                    </Row> */}
                                     
                                         <Row>
                                         <Form.Label sm={2}>userName : </Form.Label> 
