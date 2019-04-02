@@ -14,6 +14,7 @@ const ac = require('../tools/ac.js');
 const admin = require('./api/admin');
 const user = require('./api/user');
 const multer = require('multer');
+const fs = require('fs');
 //////////////////////Upload image-Avater//////////////////////
 const storage = multer.diskStorage({
   destination: "./public/images/image-Avaters",
@@ -53,45 +54,7 @@ router.get('/', function (req, res) {
 router.get('/panel*', (req, res) => {
   res.sendFile('index.html', { root: path.join(__dirname, '../panel/build/') });
 });
-/////////////////////////////////////////////////////////////////////
-// router.get('/createAdmin', (req, res)=>{
-//   res.render('createAdmin')
-// })
-// router.post('/createAdmin', function (req, res) {
-//   if (!req.body) return res.sendStatus(400);
-//   upload(req, res, function (err) {
-//     if (err) {
-//         res.render("createAdmin", {
-//             msg: err
-//         })
-//     } else {
-//         if (req.file == undefined) {
-//             res.render("createAdmin", {
-//                 msg: "Error: No File Selected!"
-//             })
-//         } else {
-//             const ADMIN = req.body;
-//             const NEW_ADMIN = new User({
-//               firstname: ADMIN.firstname,
-//               lastname: ADMIN.lastname,
-//               username: ADMIN.username,
-//               password: ADMIN.password,
-//               phone: ADMIN.phone,
-//               sex: ADMIN.optradio,
-//               role: 'admin',
-//               pic: req.file.filename
-//             })
-//             NEW_ADMIN.save(function (err, user) {
-//                 if (err)
-//                     return console.log(err)
-//                 res.render("createAdmin", {
-//                     msg: "Admin Create!"
-//                 })
-//             })
-//         }
-//     }
-// })
-// })
+
 //////////////////////////////////sign Up///////////////////////////////////
 router.post('/signup', upload.single('avatar'), (req, res) => {
   const REQ_BODY1 = req.body;
@@ -125,64 +88,33 @@ router.post('/signup', upload.single('avatar'), (req, res) => {
     console.log("shooooood" + user)
   }
 })
-///////////////////////////////////create Article//////////////////////////////////
-// router.post('/createArticle', upload.single('picture'), (req, res) => {
-//   const REQ_BODY2 = req.body;
-//   if (!REQ_BODY2.title || !REQ_BODY2.text || !REQ_BODY2.date) {
-//     return res.json({ success: false, msg: "empty filed " })
-//   }
-//   else {
-//     let article = new Article({
-//       title: REQ_BODY2.title,
-//       text: REQ_BODY2.text,
-//       date: REQ_BODY2.date,
-//       // picture:REQ_BODY2.picture,
-//       // picture: "../../../images/image-Articles/" + req.file.filename,
-//       picture: req.file.filename,
-//       author: req.user._id,
-//     })
-//     article.save((err, article) => {
-//       if (err) {
-//         console.log("error of articles" + err.message);
-//         return res.json({
-//           success: false,
-//           msg: "something wrong in add article \n" + err.message
-//         })
-//       }
-//       else {
-//         res.json({
-//           success: true,
-//           article
-//         })
-//       }
-//     })
-//   }
-// })
-///////////////////////////////////show All Article////////////////////////////////
-router.post('/showAllArticle', (req, res) => {
-  Article.find({},
-    (err, content) => {
-      if (err) {
-        return res.json({
-          success: false,
-          msg: "something wrong in get user info\n" + err.message
-        })
-      }
-      res.json({
-        success: true,
-        content
-      })
-    })
-})
+
+
+// /////////////////////////////////////Log in//////////////////////////////////
+// router.post('/login', passport.authenticate('local-login'), (req, res) => {
+//   res.json({
+//     success: true,
+//     msg: "you are logged in",
+//     user
+//   });
+// });
 /////////////////////////////////////Log in//////////////////////////////////
 router.post('/login', passport.authenticate('local-login'), (req, res) => {
-  // console.log(req.body);
-  res.json({
-    success: true,
-    msg: "you are logged in",
-    user
-  });
-  console.log(user)
+  User.findOne({username:req.body.username},(err, user)=> {
+    if(err){
+      res.json({
+        success: false,
+        msg: "something is wrong."
+      });
+    }
+    else{
+      res.json({
+        success: true,
+        msg: "you are logged in",
+        user
+      });
+    }
+  })
 });
 ///////////////////////////////////Log Out/////////////////////////////////////////////
 router.get('/logout', (req, res) => {
@@ -286,14 +218,12 @@ router.post('/editAvatar', (req, res) => {
           }
           const img = req.body.avatar;
           const path = 'public/images/image-Avaters/' + img;
-          console.log(path);
+          console.log("path......"+ path);
           fs.unlink(path, (err) => {
             if (err) {
               console.log(err)
               return
             }
-
-            //file removed
           })
           res.json({
             success: true,
@@ -305,6 +235,58 @@ router.post('/editAvatar', (req, res) => {
     }
   })
 })
+///////////////////////////Delete Article/////////////////////////
+router.post('/deleteArticle', (req, res) => {
+  Article.deleteOne({ _id: req.body.id },
+    function (err, content) {
+      if (err) {
+        console.log(err.message + "id ferestade nashod")
+        return res.json({
+          success: false,
+          msg: "The article isnot deleted\n" + err.message
+        })
+      }
+      res.json({
+        success: true,
+        msg: "The article is deleted\n",
+        //   content
+      })
+      //console.log("Delete" + content)
+    })
+})
+///////////////////////////////////create Article//////////////////////////////////
+// router.post('/createArticle', upload.single('picture'), (req, res) => {
+//   const REQ_BODY2 = req.body;
+//   if (!REQ_BODY2.title || !REQ_BODY2.text || !REQ_BODY2.date) {
+//     return res.json({ success: false, msg: "empty filed " })
+//   }
+//   else {
+//     let article = new Article({
+//       title: REQ_BODY2.title,
+//       text: REQ_BODY2.text,
+//       date: REQ_BODY2.date,
+//       // picture:REQ_BODY2.picture,
+//       // picture: "../../../images/image-Articles/" + req.file.filename,
+//       picture: req.file.filename,
+//       author: req.user._id,
+//     })
+//     article.save((err, article) => {
+//       if (err) {
+//         console.log("error of articles" + err.message);
+//         return res.json({
+//           success: false,
+//           msg: "something wrong in add article \n" + err.message
+//         })
+//       }
+//       else {
+//         res.json({
+//           success: true,
+//           article
+//         })
+//       }
+//     })
+//   }
+// })
 ///////////////////////////////Edite Article/////////////////////////////////
 // router.post('/editArticle', (req, res) => {
 //   Article.update({ _id: req.article._id },
@@ -332,25 +314,45 @@ router.post('/editAvatar', (req, res) => {
 //       console.log("UPLOAD" + article)
 //     })
 // })
-///////////////////////////Delete Article/////////////////////////
-router.post('/deleteArticle', (req, res) => {
-  Article.deleteOne({ _id: req.body.id },
-    function (err, content) {
-      if (err) {
-        console.log(err.message + "id ferestade nashod")
-        return res.json({
-          success: false,
-          msg: "The article isnot deleted\n" + err.message
-        })
-      }
-      res.json({
-        success: true,
-        msg: "The article is deleted\n",
-        //   content
-      })
-      //console.log("Delete" + content)
-    })
-})
+/////////////////////////////////////////////////////////////////////
+// router.get('/createAdmin', (req, res)=>{
+//   res.render('createAdmin')
+// })
+// router.post('/createAdmin', function (req, res) {
+//   if (!req.body) return res.sendStatus(400);
+//   upload(req, res, function (err) {
+//     if (err) {
+//         res.render("createAdmin", {
+//             msg: err
+//         })
+//     } else {
+//         if (req.file == undefined) {
+//             res.render("createAdmin", {
+//                 msg: "Error: No File Selected!"
+//             })
+//         } else {
+//             const ADMIN = req.body;
+//             const NEW_ADMIN = new User({
+//               firstname: ADMIN.firstname,
+//               lastname: ADMIN.lastname,
+//               username: ADMIN.username,
+//               password: ADMIN.password,
+//               phone: ADMIN.phone,
+//               sex: ADMIN.optradio,
+//               role: 'admin',
+//               pic: req.file.filename
+//             })
+//             NEW_ADMIN.save(function (err, user) {
+//                 if (err)
+//                     return console.log(err)
+//                 res.render("createAdmin", {
+//                     msg: "Admin Create!"
+//                 })
+//             })
+//         }
+//     }
+// })
+// })
 // ///////////////////////////Delete Article/////////////////////////
 // router.post('/deleteArticle', function (req, res, next) {
 //   Article.deleteOne({ _id: req.body.id }, function (err, content) {
@@ -369,6 +371,7 @@ router.post('/deleteArticle', (req, res) => {
 //       //console.log("Delete" + content)
 //     })
 // })
+
 ////////////////////////////////////////////////
 router.use('/api/admin', auth.isLogedIn, ac.roleBaseAccess(['admin']), admin);
 router.use('/api/user', auth.isLogedIn, ac.roleBaseAccess(['admin', 'user']), user);
