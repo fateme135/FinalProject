@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { HomePage, AboutPage, LoginPage, NotFoundPage, ProfilePage, SignUp } from './pages';
+import { HomePage, AboutPage, LoginPage, NotFoundPage, ProfilePage, SignUpPage, dashboardAdminPage } from './pages';
 import './App.css';
 import {
   BrowserRouter as Router,
@@ -17,8 +17,9 @@ class App extends Component {
             <Route exact path="/" component={HomePage} />
             <Route path="/about" component={AboutPage} />
             <Route path="/login" component={LoginPage} />
-            <Route path="/signup" component={SignUp} />
+            <Route path="/signup" component={SignUpPage} />
             <PrivateRouter path="/dashboard" component={ProfilePage} />
+            <PrivateRouter path="/dashboardAdmin" component={dashboardAdminPage} />
             <Route component={NotFoundPage} />
           </Switch>
         </Router>
