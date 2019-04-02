@@ -19,7 +19,7 @@ class EditMyProfile extends Component {
                     // const MyProfile = response.data.user ;
                     this.setState({ MyProfile: response.data.user });
                 }
-                else { this.setState({ error: true });}
+                else { this.setState({ error: true }); }
             })
         // Axios.get('//localhost:3000/api/user/whoAmI')
         //     .then(res => {
@@ -48,7 +48,7 @@ class EditMyProfile extends Component {
             .then(response => {
                 if (response.data.success) {
                     window.location = '/panel/dashboard';
-                   // {"welcom "+ response.data.username}
+                    // {"welcom "+ response.data.username}
                 } else {
                     this.setState({ error: true })
                 }
@@ -63,7 +63,7 @@ class EditMyProfile extends Component {
     // }
     ///////////////////////////////////
     render() {
-        let { isOnEdit} = this.state;
+        let { isOnEdit } = this.state;
         return (
             <div className="App-header">
                 <Container>
@@ -73,7 +73,7 @@ class EditMyProfile extends Component {
                             <>
                                 <Form inline onSubmit={this.onSubmit} style={{ marginLeft: '4rem' }}>
                                     <Col>
-                                    {/* <Row>
+                                        {/* <Row>
                                             <Form.Label>picture :</Form.Label>
                                             <FormControl name="avatar" type="file" placeholder="avatar" className=" mr-sm-2"  /><br></br>
                                            
@@ -114,13 +114,13 @@ class EditMyProfile extends Component {
                             <>
                                 <Form inline >
                                     <Col>
-                                    {/* <Row>
+                                        {/* <Row>
                                     <Form.Label sm={2}>avatar : </Form.Label>
                                     <FormControl type="file"  value={"../../../images/image-Avatar/" + Profile.avatar} style={{ width: '7rem' }} />
                                     </Row> */}
-                                    
+
                                         <Row>
-                                        <Form.Label sm={2}>userName : </Form.Label> 
+                                            <Form.Label sm={2}>userName : </Form.Label>
                                             <FormControl type="text" value={Profile.username} placeholder="userName" className=" mr-sm-2" />
                                         </Row><br></br>
                                         <Row>

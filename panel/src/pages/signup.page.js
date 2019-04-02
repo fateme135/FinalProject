@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col, Form, FormControl, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Axios from 'axios';
-class SignUp extends Component {
+class SignUpPage extends Component {
     state = { error: null, file: null, }
      ////////////////////////////fale but i donot khow/////////////////////
     // onSubmit = (event) => {
@@ -89,6 +89,6 @@ class SignUp extends Component {
         )
     }
 }
-export { SignUp }
+export { SignUpPage }
 
 // value sex dg mesle baqiye az state gerefte nemishe chon taqir nemikone.........

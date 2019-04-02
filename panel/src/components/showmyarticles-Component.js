@@ -63,7 +63,7 @@ class ShowMyArticles extends Component {
         return (
             MyArticles.map((Article, index) => {
                 return (
-                    <Row>
+                    <Row className="App-header">
                         <Card style={{ width: '23rem' }} bg="secondary" key={index}>
                             <Card.Img variant="top" src={"../../../images/image-Articles/" + Article.picture} style={{ width: '7rem' }} />
                             <Card.Body>
