@@ -9,6 +9,8 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const passport = require('passport');
 let app = express();
+let morgan = require('morgan');//for morgan step1
+const morganSetup = require('./tools/morgan-setup');//for morgan step2
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 console.log(__dirname, 'views');
@@ -18,9 +20,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'panel/build'),{maxAge:'7d', index:false}));
+app.use(express.static(path.join(__dirname, 'panel/build'),{maxAge:'7d', index:false}));//important
 console.log(__dirname, 'panel/build')
 //////////////////////////
+morganSetup(morgan, app);//for morgan step3
+////////////////////////////
 app.use(bodyParser.urlencoded({
   'extended': 'true'
 })); // parse application/x-www-form-urlencoded
