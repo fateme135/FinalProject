@@ -25,7 +25,7 @@ class CreateArticle extends Component {
           //     FCM: '1'
           // }
           ///////////////////////Axios//////////////////////////////////////
-          Axios.post('//localhost:3000/api/user/createArticle', data)
+          Axios.post('//localhost:3000/createArticle', data)
                .then(response => {
                     if (response.data.success) {
                          // window.location = '/panel/dashboard';

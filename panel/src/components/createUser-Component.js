@@ -20,7 +20,7 @@ class SignUpWithAdmin extends Component {
           formdata.append("phoneNumber", event.target["phoneNumber"].value);
           formdata.append("sexxx", event.target["sexxx"].value);
           ///////////////////////Axios//////////////////////////////////////
-          Axios.post('//localhost:3000/api/admin/createUser', formdata)
+          Axios.post('//localhost:3000/createUser', formdata)
                .then(response => {
                     if (response.data.success) {
                          window.location = '/panel/dashboardAdmin';

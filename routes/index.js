@@ -16,25 +16,47 @@ const user = require('./api/user');
 const multer = require('multer');
 const fs = require('fs');
 //////////////////////Upload image-Avater//////////////////////
-const storage = multer.diskStorage({
-  destination: "./public/images/image-Avaters",
-  filename: function (req, file, cb) { cb(null, "IMAGE-" + Date.now() + path.extname(file.originalname)); }
-});
-const upload = multer({
-  storage: storage,
-  limits: { fileSize: 1000000 },
-})
+// const storage = multer.diskStorage({
+//   destination: "./public/images/image-Avaters",
+//   filename: function (req, file, cb) { cb(null, "IMAGE-" + Date.now() + path.extname(file.originalname)); }
+// });
+// const upload = multer({
+//   storage: storage,
+//   limits: { fileSize: 1000000 },
+// })
 /////////////////////////////////Edite image-Avatar////////////////////////////////////////////////////
-const storageEditAvatar = multer.diskStorage({
+const storage = multer.diskStorage({
   destination: "./public/images/image-Avatars",
   filename: function (req, file, cb) {
     cb(null, "IMAGE-" + Date.now() + path.extname(file.originalname));
   }
 });
-const uploadEditAvatar = multer({
-  storage: storageEditAvatar,
+const upload = multer({
+  storage: storage,
   limits: { fileSize: 1000000 },
 }).single("avatar");
+////////////////////////////////////////////////////////////
+// const storageEditAvatar = multer.diskStorage({
+//   destination: "./public/images/image-Avatars",
+//   filename: function (req, file, cb) {
+//     cb(null, "IMAGE-" + Date.now() + path.extname(file.originalname));
+//   }
+// });
+// const uploadEditAvatar = multer({
+//   storage: storageEditAvatar,
+//   limits: { fileSize: 1000000 },
+// }).single("avatar");
+//////////////////////Upload image-Articles//////////////////////
+const storageArticle = multer.diskStorage({
+  destination: "./public/images/image-Articles",
+  filename: function (req, file, cb) {
+    cb(null, "IMAGE-" + Date.now() + path.extname(file.originalname));
+  }
+});
+const uploadArticle = multer({
+  storage: storageArticle,
+  limits: { fileSize: 1000000 },
+})
 ///////////////////////////////Show all Article in ejs//////////////////////////////////////
 /* GET home page. */
 router.get('/', function (req, res) {
@@ -54,43 +76,133 @@ router.get('/', function (req, res) {
 router.get('/panel*', (req, res) => {
   res.sendFile('index.html', { root: path.join(__dirname, '../panel/build/') });
 });
-
 //////////////////////////////////sign Up///////////////////////////////////
-router.post('/signup', upload.single('avatar'), (req, res) => {
-  const REQ_BODY1 = req.body;
-  if (!REQ_BODY1.firstName || !REQ_BODY1.lastName || !REQ_BODY1.userName || !REQ_BODY1.password) {
-    return res.json({ success: false, msg: "empty filed" })
-  }
-  else {
-    let user = new User({
-      avatar: req.file.filename,
-      username: REQ_BODY1.userName,
-      firstname: REQ_BODY1.firstName,
-      lastname: REQ_BODY1.lastName,
-      password: REQ_BODY1.password,
-      phonenumber: REQ_BODY1.phoneNumber,
-      sex: REQ_BODY1.sexxx,
-      role: "user",
-    })
-    user.save((err, user) => {
-      if (err) {
-        console.log(err.message)
+// router.post('/signup', upload.single('avatar'), (req, res) => {
+//   const REQ_BODY1 = req.body;
+//   if (!REQ_BODY1.firstName || !REQ_BODY1.lastName || !REQ_BODY1.userName || !REQ_BODY1.password) {
+//     return res.json({ success: false, msg: "empty filed" })
+//   }
+//   else {
+//     let user = new User({
+//       avatar: req.file.filename,
+//       username: REQ_BODY1.userName,
+//       firstname: REQ_BODY1.firstName,
+//       lastname: REQ_BODY1.lastName,
+//       password: REQ_BODY1.password,
+//       phonenumber: REQ_BODY1.phoneNumber,
+//       sex: REQ_BODY1.sexxx,
+//       role: "user",
+//     })
+//     user.save((err, user) => {
+//       if (err) {
+//         console.log(err.message)
+//         return res.json({
+//           success: false,
+//           msg: "something wrong in user sign up\n" + err.message
+//         })
+//       }
+//       res.json({
+//         success: true,
+//         user
+//       })
+//     })
+//     console.log("shooooood" + user)
+//   }
+// })
+////////////////////////////////////////////////////////////
+router.post('/signup', (req, res) => {
+  upload(req, res, (err) => {
+    if (err) {
+      console.log(err.message);
+      return res.json({
+        success: false,
+        msg: "something wrong in edit avatar."
+      })
+    }
+    else {
+      if (req.file == undefined) {
         return res.json({
           success: false,
-          msg: "something wrong in user sign up\n" + err.message
+          msg: "Please choose avatar."
         })
       }
-      res.json({
-        success: true,
-        user
+      else {
+        const REQ_BODY1 = req.body;
+        let user = new User({
+          avatar: req.file.filename,
+          username: REQ_BODY1.userName,
+          firstname: REQ_BODY1.firstName,
+          lastname: REQ_BODY1.lastName,
+          password: REQ_BODY1.password,
+          phonenumber: REQ_BODY1.phoneNumber,
+          sex: REQ_BODY1.sexxx,
+          role: "user",
+        })
+        user.save((err, user) => {
+          if (err) {
+            console.log(err.message)
+            return res.json({
+              success: false,
+              msg: "something wrong in user sign up\n" + err.message
+            })
+          }
+          res.json({
+            success: true,
+            user
+          })
+        })
+        console.log("shooooood" + user)
+      }
+    }
+  })
+})
+///////////////////////////////////Edite image-Avatar//////////////////////////////////////////
+router.post('/editAvatar', (req, res) => {
+  upload(req, res, (err) => {
+    if (err) {
+      console.log(err.message);
+      return res.json({
+        success: false,
+        msg: "something wrong in edit avatar."
       })
-    })
-    console.log("shooooood" + user)
-  }
+    }
+    else {
+      if (req.file == undefined) {
+        return res.json({
+          success: false,
+          msg: "Please choose avatar."
+        })
+      }
+      else {
+        const PIC = req.file.filename;
+        User.updateOne({ _id: req.user._id }, { avatar: PIC }, (err, user) => {
+          if (err) {
+            console.log(err.message);
+            return res.json({
+              success: false,
+              msg: "Something wrong in save avatar."
+            })
+          }
+          const img = req.body.avatar;
+          const path = 'public/images/image-Avatars/' + img;
+          fs.unlink(path, (err) => {
+            if (err) {
+              console.log(err)
+              return
+            }
+          })
+          res.json({
+            success: true,
+            msg: "Avatar successfully edited.",
+            PIC
+          })
+        })
+      }
+    }
+  })
 })
 
-
-// /////////////////////////////////////Log in//////////////////////////////////
+// /////////////////////////////////////Log in is false//////////////////////////////////
 // router.post('/login', passport.authenticate('local-login'), (req, res) => {
 //   res.json({
 //     success: true,
@@ -100,14 +212,14 @@ router.post('/signup', upload.single('avatar'), (req, res) => {
 // });
 /////////////////////////////////////Log in//////////////////////////////////
 router.post('/login', passport.authenticate('local-login'), (req, res) => {
-  User.findOne({username:req.body.username},(err, user)=> {
-    if(err){
+  User.findOne({ username: req.body.username }, (err, user) => {
+    if (err) {
       res.json({
         success: false,
         msg: "something is wrong."
       });
     }
-    else{
+    else {
       res.json({
         success: true,
         msg: "you are logged in",
@@ -189,52 +301,6 @@ router.post('/editprofile', (req, res) => {
       console.log("UPLOAD" + user)
     })
 })
-///////////////////////////////////Edit Avatar//////////////////////////////////////////
-router.post('/editAvatar', (req, res) => {
-  uploadEditAvatar(req, res, (err) => {
-    if (err) {
-      console.log(err.message);
-      return res.json({
-        success: false,
-        msg: "something wrong in edit avatar."
-      })
-    }
-    else {
-      if (req.file == undefined) {
-        return res.json({
-          success: false,
-          msg: "Please choose avatar."
-        })
-      }
-      else {
-        const PIC = req.file.filename;
-        User.updateOne({ _id: req.user._id }, { avatar: PIC }, (err, user) => {
-          if (err) {
-            console.log(err.message);
-            return res.json({
-              success: false,
-              msg: "Something wrong in save avatar."
-            })
-          }
-          const img = req.body.avatar;
-          const path = 'public/images/image-Avaters/' + img;
-          console.log("path......"+ path);
-          fs.unlink(path, (err) => {
-            if (err) {
-              console.log(err)
-              return
-            }
-          })
-          res.json({
-            success: true,
-            msg: "Avatar successfully edited.",
-            PIC
-          })
-        })
-      }
-    }
-  })
-})
 ///////////////////////////Delete Article/////////////////////////
 router.post('/deleteArticle', (req, res) => {
   Article.deleteOne({ _id: req.body.id },
@@ -249,71 +315,90 @@ router.post('/deleteArticle', (req, res) => {
       res.json({
         success: true,
         msg: "The article is deleted\n",
-        //   content
+        content
       })
       //console.log("Delete" + content)
     })
 })
 ///////////////////////////////////create Article//////////////////////////////////
-// router.post('/createArticle', upload.single('picture'), (req, res) => {
-//   const REQ_BODY2 = req.body;
-//   if (!REQ_BODY2.title || !REQ_BODY2.text || !REQ_BODY2.date) {
-//     return res.json({ success: false, msg: "empty filed " })
-//   }
-//   else {
-//     let article = new Article({
-//       title: REQ_BODY2.title,
-//       text: REQ_BODY2.text,
-//       date: REQ_BODY2.date,
-//       // picture:REQ_BODY2.picture,
-//       // picture: "../../../images/image-Articles/" + req.file.filename,
-//       picture: req.file.filename,
-//       author: req.user._id,
-//     })
-//     article.save((err, article) => {
-//       if (err) {
-//         console.log("error of articles" + err.message);
-//         return res.json({
-//           success: false,
-//           msg: "something wrong in add article \n" + err.message
-//         })
-//       }
-//       else {
-//         res.json({
-//           success: true,
-//           article
-//         })
-//       }
-//     })
-//   }
-// })
+router.post('/createArticle', uploadArticle.single('picture'), (req, res) => {
+  const REQ_BODY2 = req.body;
+  if (!REQ_BODY2.title || !REQ_BODY2.text || !REQ_BODY2.date) {
+    return res.json({ success: false, msg: "empty filed " })
+  }
+  else {
+    let article = new Article({
+      title: REQ_BODY2.title,
+      text: REQ_BODY2.text,
+      date: REQ_BODY2.date,
+      // picture:REQ_BODY2.picture,
+      // picture: "../../../images/image-Articles/" + req.file.filename,
+      picture: req.file.filename,
+      author: req.user._id,
+    })
+    article.save((err, article) => {
+      if (err) {
+        console.log("error of articles" + err.message);
+        return res.json({
+          success: false,
+          msg: "something wrong in add article \n" + err.message
+        })
+      }
+      else {
+        res.json({
+          success: true,
+          article
+        })
+      }
+    })
+  }
+})
 ///////////////////////////////Edite Article/////////////////////////////////
-// router.post('/editArticle', (req, res) => {
-//   Article.update({ _id: req.article._id },
-//     {
-//       $set:
-//       {
-//         tit: req.body.title,
-//         text: req.body.text,
-//         date: req.body.date,
-//         picture: req.body.picture,
-//       }
-//     },
-//     function (err, article) {
-//       if (err) {
-//         console.log(err.message)
-//         return res.json({
-//           success: false,
-//           msg: "something wrong in Edit article \n" + err.message
-//         })
-//       }
-//       res.json({
-//         success: true,
-//         article
-//       })
-//       console.log("UPLOAD" + article)
-//     })
-// })
+router.post('/editArticle', (req, res) => {
+  Article.update({ _id: req.article._id },
+    {
+      $set:
+      {
+        tit: req.body.title,
+        text: req.body.text,
+        date: req.body.date,
+        picture: req.body.picture,
+      }
+    },
+    function (err, article) {
+      if (err) {
+        console.log(err.message)
+        return res.json({
+          success: false,
+          msg: "something wrong in Edit article \n" + err.message
+        })
+      }
+      res.json({
+        success: true,
+        article
+      })
+      console.log("UPLOAD" + article)
+    })
+})
+
+// ///////////////////////////Delete Article/////////////////////////
+router.post('/deleteArticle', function (req, res, next) {
+  Article.deleteOne({ _id: req.body.id }, function (err, content) {
+    if (err) {
+      console.log(err.message + "id ferestade nashod")
+      return res.json({
+        success: false,
+        msg: "The article isnot deleted\n" + err.message
+      })
+    }
+    res.json({
+      success: true,
+      msg: "The article is deleted\n",
+      content
+    })
+    //console.log("Delete" + content)
+  })
+})
 /////////////////////////////////////////////////////////////////////
 // router.get('/createAdmin', (req, res)=>{
 //   res.render('createAdmin')
@@ -353,26 +438,7 @@ router.post('/deleteArticle', (req, res) => {
 //     }
 // })
 // })
-// ///////////////////////////Delete Article/////////////////////////
-// router.post('/deleteArticle', function (req, res, next) {
-//   Article.deleteOne({ _id: req.body.id }, function (err, content) {
-//       if (err) {
-//         console.log(err.message + "id ferestade nashod")
-//         return res.json({
-//           success: false,
-//           msg: "The article isnot deleted\n" + err.message
-//         })
-//       }
-//       res.json({
-//         success: true,
-//         msg: "The article is deleted\n",
-//         content
-//       })
-//       //console.log("Delete" + content)
-//     })
-// })
-
 ////////////////////////////////////////////////
 router.use('/api/admin', auth.isLogedIn, ac.roleBaseAccess(['admin']), admin);
-router.use('/api/user', auth.isLogedIn, ac.roleBaseAccess(['admin', 'user']), user);
+//router.use('/api/user', auth.isLogedIn, ac.roleBaseAccess(['admin', 'user']), user);
 module.exports = router;

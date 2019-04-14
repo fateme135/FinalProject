@@ -4,29 +4,30 @@ import { Card, Button, Row } from 'react-bootstrap';
 class ShowMyArticles extends Component {
     constructor(props) {
         super(props);
-        this.state = { error: null, MyArticles: []}
+        this.state = { error: null, MyArticles: [] }
+        /////////////////////////////////get data from database/////////////////////
         const data = {}//چون متد پست هست و باید یه داده ای بره داده رو خالی میزاریم
         Axios.post('//localhost:3000/showMyArticle', data)
             .then(response => {
                 if (response.data.success) {
+                  //  let { MyArticles } = this.state;
+                    // MyArticles=[]
+                    // MyArticles.push(response.data.contents);
                     this.setState({ MyArticles: response.data.contents });
                 } else {
                     this.setState({ error: true });
                 }
             })
     }
-    //////////////////////////////////////////////////////
+    ///////////////////////////////post data to database///////////////////////
     onDelete = (event) => {
+       let { MyArticles } = this.state;
         const data = { id: event.currentTarget.id, FCM: '1' }
-        console.log(data + " data in deleted");
         Axios.post('//localhost:3000/deleteArticle', data)
             .then(response => {
                 if (response.data.success) {
-                    //  let newMyArticle = response.data.contents;
-                    // newMyArticle.filter(value => value._id !== _id)
-                   // let { MyArticles } = this.state;
-                    //    console.log(MyArticles+"myarticle in deleted");
-                  //  this.setState({ MyArticles });
+                //   MyArticles = MyArticles.filter(value => value.id !==id)
+                    this.setState({  MyArticles });
                 } else {
                     this.setState({ error: true });
                 }

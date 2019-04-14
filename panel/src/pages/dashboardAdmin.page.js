@@ -4,8 +4,8 @@ import { ShowMyArticles } from '../components/showmyarticles-Component';
 import { EditMyProfile } from '../components/Editeprofile-Component';
 import { CreateArticle } from '../components/createArticle-Component';
 import { ShowAllArticles } from '../components/showAllArticles-Component';
+import {  ShowAlluserss} from '../components/showAllUsers-Component';
 import { SignUpWithAdmin } from '../components/createUser-Component';
-import{showAllUsers} from '../components/showAllUsers-Component';
 
 // import { EditAvatar } from '../components/editeAvatar-Component';
 class dashboardAdminPage extends Component {
@@ -52,14 +52,13 @@ class dashboardAdminPage extends Component {
                     <Col sm={10}>
                         <Tab.Content>
                             <Tab.Pane eventKey="first">
-                                <showAllUsers />
+                                < ShowAlluserss />
                             </Tab.Pane>
                             <Tab.Pane eventKey="second">
                                 <ShowAllArticles />
                             </Tab.Pane>
                             <Tab.Pane eventKey="third">
                                 <CreateArticle />
-
                             </Tab.Pane>
                             <Tab.Pane eventKey="fourth">
                                 <SignUpWithAdmin />

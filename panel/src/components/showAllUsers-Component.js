@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
-import { Button, Row ,Card} from 'react-bootstrap';
-class showAllUsers extends Component {
+import { Button, Row, Card } from 'react-bootstrap';
+class ShowAlluserss extends Component {
     constructor(props) {
         super(props);
         this.state = { error: null, allProfiles: [] }
@@ -34,8 +34,8 @@ class showAllUsers extends Component {
                 return (
                     <Row className="App-header">
                         <Card style={{ width: '23rem' }} bg="secondary" key={index}>
-                        <Card.Img variant="top" src={"../../../images/image-Avatars/" + profile.avatar} style={{ width: '7rem' }} />
-                                   <Card.Body>
+                            <Card.Img variant="top" src={"../../../images/image-Avatars/" + profile.avatar} style={{ width: '7rem' }} />
+                            <Card.Body>
                                 <Card.Title>{profile.username}</Card.Title>
                                 <Card.Text> {profile.firstname} </Card.Text>
                                 <Card.Text> {profile.lastname} </Card.Text>
@@ -52,4 +52,4 @@ class showAllUsers extends Component {
         )
     }
 }
-export { showAllUsers }
+export { ShowAlluserss }

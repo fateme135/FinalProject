@@ -19,7 +19,7 @@ class ShowAllArticles extends Component {
      onDelete = (event) => {
           const data = { id: event.currentTarget.id, FCM: '1' }
           console.log(data + " data in deleted");
-          Axios.post('//localhost:3000/api/admin/deleteArticle', data)
+          Axios.post('//localhost:3000/deleteArticle', data)
                .then(response => {
                     if (response.data.success) {
                     } else {
