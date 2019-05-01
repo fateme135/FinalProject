@@ -44,7 +44,9 @@ router.post('/showAllArticles', (req, res) => {
         success: true,
         contents
       })
+      console.log("articles#########"+contents)
     })
+    .populate('author');
 })
 ///////////////////////////Delete user/////////////////////////
 router.post('/deleteuser', (req, res) => {

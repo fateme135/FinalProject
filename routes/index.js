@@ -1,7 +1,7 @@
 let express = require('express');
 let router = express.Router();
 const mongoose = require('mongoose');
-let db = mongoose.connect('mongodb://localhost:27017/TestFinalProject', { useNewUrlParser: true }, function (err, res) {
+let db = mongoose.connect('mongodb://localhost:27017/FinalProjectArticles', { useNewUrlParser: true }, function (err, res) {
   if (err) { console.log('Failed to connect to ' + db); }
   else { console.log('Connected to ' + db); }
 });
@@ -15,7 +15,7 @@ const admin = require('./api/admin');
 const user = require('./api/user');
 const multer = require('multer');
 const fs = require('fs');
-//////////////////////Upload image-Avater//////////////////////
+//////////////////////Upload image-Avater///////***ye ravesh ax avardane ke ture ham hast////////////////
 // const storage = multer.diskStorage({
 //   destination: "./public/images/image-Avaters",
 //   filename: function (req, file, cb) { cb(null, "IMAGE-" + Date.now() + path.extname(file.originalname)); }
@@ -35,7 +35,7 @@ const upload = multer({
   storage: storage,
   limits: { fileSize: 1000000 },
 }).single("avatar");
-////////////////////////////////////////////////////////////
+/////////////////////////////////////////agar mikhastam edit avatar ro bebaram ye jaye dg va signup hamin ja bashe///////////////////
 // const storageEditAvatar = multer.diskStorage({
 //   destination: "./public/images/image-Avatars",
 //   filename: function (req, file, cb) {
@@ -70,13 +70,13 @@ router.get('/', function (req, res) {
     res.render('index.ejs', {
       articles
     })
-  })
+  }).populate('author')
 });
 /////////////////////////////////////////////////////////////////////
 router.get('/panel*', (req, res) => {
   res.sendFile('index.html', { root: path.join(__dirname, '../panel/build/') });
 });
-//////////////////////////////////sign Up///////////////////////////////////
+//////////////////////////////////sign Up///////***bad ham in jori bayad azash estefade koni/////////////////////////////
 // router.post('/signup', upload.single('avatar'), (req, res) => {
 //   const REQ_BODY1 = req.body;
 //   if (!REQ_BODY1.firstName || !REQ_BODY1.lastName || !REQ_BODY1.userName || !REQ_BODY1.password) {
@@ -202,7 +202,7 @@ router.post('/editAvatar', (req, res) => {
   })
 })
 
-// /////////////////////////////////////Log in is false//////////////////////////////////
+// /////////////////////////////////////Log in is false  chone findOne nadare baraye dashboard admin mikhastim va garne b tanhayi doroste//////////////////////////////////
 // router.post('/login', passport.authenticate('local-login'), (req, res) => {
 //   res.json({
 //     success: true,
@@ -265,10 +265,12 @@ router.post('/showMyArticle', (req, res) => {
       }
       res.json({
         success: true,
-        contents
+        contents,
+        
       })
       console.log("my Article is" + contents);
     })
+    .populate('author');
 })
 ///////////////////////////////EditeProfile/////////////////////////////////
 router.post('/editprofile', (req, res) => {
@@ -359,7 +361,7 @@ router.post('/editArticle', (req, res) => {
     {
       $set:
       {
-        tit: req.body.title,
+        title: req.body.title,
         text: req.body.text,
         date: req.body.date,
         picture: req.body.picture,
@@ -438,6 +440,34 @@ router.post('/deleteArticle', function (req, res, next) {
 //     }
 // })
 // })
+//////////////////////comment/////////////////
+router.get("/article/:cont", function (req, res) {
+  Article.findOne({ name: req.params.cont }, function (err, article) {
+    if (err)
+      return res.send(err);
+    Comment.find({ article: article._id }, (err, comments) => {
+      if (err) {
+        console.log(err);
+        return res.send(err);
+      }
+      else {
+        res.render("article.ejs", {
+          title: article.title,
+          author: article.author.firstname + " " + article.author.lastname,
+          text: article.text,
+          date: article.date,
+          pic: "../images/image-Articles/" + article.picture,
+          comments
+
+        })
+      }
+
+    }).populate('author');
+
+  }).populate('author');
+
+})
+
 ////////////////////////////////////////////////
 router.use('/api/admin', auth.isLogedIn, ac.roleBaseAccess(['admin']), admin);
 //router.use('/api/user', auth.isLogedIn, ac.roleBaseAccess(['admin', 'user']), user);

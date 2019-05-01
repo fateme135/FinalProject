@@ -10,17 +10,17 @@ const article = new Schema({
         required: true,
     },
     date: {
-     type: Date,
-     required: true,
- },
+        type: Date,
+        required: true,
+    },
     picture: {
         type: String,
     },
-    author: {
-        type:Schema.Types.ObjectId,
-        required:true,
-        ref:'user'
+    author: {//for populate
+        type: Schema.Types.ObjectId,
+        required: true,
+        ref: 'user'
     },
-  
+
 });
 module.exports = mongoose.model('article', article);

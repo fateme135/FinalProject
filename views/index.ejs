@@ -4,6 +4,12 @@
 <head>
 
   <link rel='stylesheet' href='/stylesheets/style.css' />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </head>
 
 <body class="body">
@@ -13,26 +19,38 @@
     <a class="nav-link" href="/panel/login">Sign In</a>
 
   <section id="one" class="wrapper style2">
+      <%articles.forEach(function(article){%>
+      <div class="container">
+          <h2><%=article.title%></h2>
+        
+          <div class="card" style="width:400px">
+            <img class="card-img-top" src="./images/image-Articles/<%=article.picture%>" alt="Card image" style="width:100%">
+            <div class="card-body">
+              <h4 class="card-title">author :<%=article.author.firstname%></h4>
+              <p class="card-text">text :<%=article.text%></p>
+              <p class="card-text">Date :<%=article.date%></p>
+              <a href="#" class="btn btn-primary">See Profile</a>
+            </div>
+          </div>
+          <%})%>
 
-
-
-
-    <%articles.forEach(function(article){%>
+    <!-- <%articles.forEach(function(article){%>
       <div class="box">
           <img src="./images/image-Articles/<%=article.picture%>" alt="" />
         <div class="content">
           <header class="align-center">
+
             <p><%=article.title%></p>
             <h2><%=article.text%></h2>
           </header>
-          <p>Date: <%=article.date%></p>
+          <p>Date: <%=article.date%></p> -->
           <!-- <footer class="align-center">
             <a href="article/<%=article.link%>" class="button alt">Learn More</a>
 
           </footer> -->
-        </div>
+        <!-- </div>
       </div>
-    <%})%>
+    <%})%> -->
 
 
   </section>
